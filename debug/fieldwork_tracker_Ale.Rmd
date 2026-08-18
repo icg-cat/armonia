@@ -1,0 +1,154 @@
+---
+title: "Fieldwork tracking - Visión natural"
+date: "`r format(Sys.time(), '%Y-%m-%d %H:%M')`"
+output: 
+  html_document:
+    theme: cerulean
+    toc: true
+    toc_float: true
+  highlight: tango
+  self_contained: true
+---
+
+```{r setup, include = FALSE, message = FALSE, warning = FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
+
+library(dplyr)
+library(tidyr)
+library(knitr)
+library(here)
+library(ggplot2)
+```
+
+
+```{r load_data}
+data_dir <- here::here("seguimiento campo/data raw")
+
+pre  <- readRDS(file.path(data_dir, "pre_clean.rds"))
+long <- readRDS(file.path(data_dir, "long_clean.rds"))
+post <- readRDS(file.path(data_dir, "post_clean.rds"))
+```
+
+---
+
+## 1. Participant tracking table
+
+```{r participante-table}
+all_participants <- bind_rows(
+  pre  |> select(email, nombre2, programa),
+  long |> select(email, nombre2, programa),
+  post |> select(email, nombre2)
+) |>
+  filter(!is.na(email)) |>
+  group_by(email) |>
+  summarise(
+    nombre   = first(nombre2[!is.na(nombre2)]),
+    programa = first(programa[!is.na(programa)]),
+    .groups  = "drop"
+  )
+
+long_summary <- long |>
+  filter(!is.na(email)) |>
+  group_by(email) |>
+  summarise(
+    flag_long  = n(),
+    first_long = min(timestamp, na.rm = TRUE),
+    last_long  = max(timestamp, na.rm = TRUE),
+    .groups    = "drop"
+  )
+
+tracker <- all_participants |>
+  mutate(
+    flag_pre  = email %in% pre$email[!is.na(pre$email)],
+    flag_post = email %in% post$email[!is.na(post$email)]
+  ) |>
+  left_join(long_summary, by = "email") |>
+  mutate(
+    flag_long     = replace_na(flag_long, 0L),
+    first_long    = if_else(flag_long == 0, NA, first_long),
+    last_long     = if_else(flag_long == 0, NA, last_long),
+    flag_inactivo = flag_long > 0 & (as.Date(last_long) <= Sys.Date() - 10)
+  ) |>
+  arrange(email) |>
+  select(email, nombre, programa,
+         flag_pre, flag_long, flag_post,
+         flag_inactivo, first_long, last_long)
+
+DT::datatable(
+  tracker,
+  colnames = c(
+    "Email", "Name", "Program",
+    "Pre", "Long (n)", "Post",
+    "Inactive", "First measurement", "Last measurement"
+  ),
+  filter  = "top",
+  options = list(pageLength = 20)
+)
+```
+
+---
+
+## 2. Tracking table export (Excel)
+
+```{r include=FALSE}
+sheets <- list(
+  "All"          = tracker,
+  "No measurements" = filter(tracker, flag_long == 0), #hacen pretest, pero sin mediciones
+  "No pretest"    = filter(tracker, !flag_pre), #hacen mediciones, falta pretest
+  "Inactives"      = filter(tracker, flag_inactivo), #10 dias sin mediciones
+  "Complete"      = filter(tracker, flag_pre & flag_long & !flag_inactivo),
+  "No postest"    = filter(tracker, !flag_post)
+)
+
+writexl::write_xlsx(sheets, here::here("seguimiento campo", "tracker.xlsx"))
+```
+
+---
+
+## 3. Profiles summary
+
+```{r perfil-summary}
+perfiles <- tracker |>
+  mutate(perfil = case_when(
+    flag_pre  & flag_long == 0 & !flag_post               ~ "Pretest only",
+    !flag_pre & flag_long > 0                             ~ "Measurements only",
+    flag_pre  & flag_long > 0  & !flag_post               ~ "No postest",
+    flag_pre  & flag_long > 0  & flag_post                ~ "Complete",
+    flag_long > 0 & as.Date(last_long) <= Sys.Date() - 10 ~ "Inactive (10d)",
+    TRUE                                                  ~ "No activity"
+  ))
+
+perfiles |>
+  count(perfil, name = "n_participantes") |>
+  arrange(desc(n_participantes)) |>
+  kable(col.names = c("Perfil", "N participantes"), align = c("l", "c"))
+
+perfiles |>
+  count(perfil, name = "n") |>
+  ggplot(aes(x = reorder(perfil, n), y = n)) +
+  geom_col(fill = "steelblue") +
+  coord_flip() +
+  labs(title = "Profile summary", x = NULL, y = "N participants")
+```
+
+---
+
+## 4. Profile summary by collaborator
+
+```{r}
+perfiles |>
+  count(programa, perfil, name = "n_participantes") |>
+  arrange(desc(n_participantes)) |>
+  kable(col.names = c("Programa", "Perfil", "N participantes"), align = c("l", "l", "c"))
+
+perfiles |>
+  count(programa, perfil, name = "n") |>
+  ggplot(aes(x = reorder(perfil, n), y = n, fill = perfil)) +
+  geom_col(show.legend = FALSE) +
+  coord_flip() +
+  facet_wrap(~ programa) +
+  labs(title = "Profile summary by program", x = NULL, y = "N participants")
+```
+
+
+

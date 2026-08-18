@@ -1,0 +1,42 @@
+Package: armonia
+Title: Harmonize Multilingual and Longitudinal Research Data
+Version: 2.0.0
+Authors@R: c(
+    person("Irene", "Cruz", email = "irene.cruz@uab.cat", role = c("aut", "cre")), 
+    person("Alejandro", "González Heras", email = "alejo.heras.vision@gmail.com", role = "ctb")
+    )
+Description: Tools for harmonizing multilingual and multi-wave research datasets.
+    Generates an Excel-based data dictionary that maps raw variable names and
+    categorical values to a standardized schema, applies the mapping
+    to rename variables and recode factors to integers, safely row-binds and
+    column-binds waves, and anonymizes participant identifiers via salted
+    SHA-256 hashing.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.2
+Depends:
+    R (>= 4.1.0)
+Suggests:
+    knitr,
+    rmarkdown,
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
+VignetteBuilder: knitr
+Imports:
+    cli,
+    digest,
+    dplyr,
+    here,
+    janitor,
+    openxlsx,
+    purrr,
+    readxl,
+    rlang,
+    stats,
+    stringdist,
+    stringi,
+    stringr,
+    tibble,
+    tools,
+    utils

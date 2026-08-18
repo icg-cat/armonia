@@ -1,0 +1,7 @@
+^.*\.Rproj$
+^\.Rproj\.user$
+^data-raw$
+^debug$
+^dev docs$
+^zOld$
+^LICENSE\.md$
