@@ -40,5 +40,5 @@ Imports:
     tibble,
     tools,
     utils
-URL: https://github.com/icg-cat/armonia
+URL: https://github.com/icg-cat/armonia, https://icg-cat.github.io/armonia/
 BugReports: https://github.com/icg-cat/armonia/issues

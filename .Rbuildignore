@@ -5,3 +5,7 @@
 ^dev docs$
 ^zOld$
 ^LICENSE\.md$
+^_pkgdown\.yml$
+^docs$
+^pkgdown$
+^\.github$
