@@ -13,6 +13,7 @@
 <script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Harmonize Multilingual and Longitudinal Research Data">
 <meta name="description" content="Tools for harmonizing multilingual and multi-wave research datasets. Generates an Excel-based data dictionary that maps raw variable names and categorical values to a standardized schema, applies the mapping to rename variables and recode factors to integers, safely row-binds and column-binds waves, and anonymizes participant identifiers via salted SHA-256 hashing.">
 <meta property="og:description" content="Tools for harmonizing multilingual and multi-wave research datasets. Generates an Excel-based data dictionary that maps raw variable names and categorical values to a standardized schema, applies the mapping to rename variables and recode factors to integers, safely row-binds and column-binds waves, and anonymizes participant identifiers via salted SHA-256 hashing.">
+<meta property="og:image" content="https://icg-cat.github.io/armonia/logo.png">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -48,8 +49,11 @@
 </nav><div class="container template-home">
 <div class="row">
   <main id="main" class="col-md-9"><div class="section level1">
-<div class="page-header"><h1 id="armonia">armonia<a class="anchor" aria-label="anchor" href="#armonia"></a>
-</h1></div>
+<div class="page-header">
+<img src="logo.png" class="logo" alt=""><h1 id="armonia-">armonia 
+<a class="anchor" aria-label="anchor" href="#armonia-"></a>
+</h1>
+</div>
 <p>Tools for harmonizing multilingual and multi-wave research datasets. <code>armonia</code> generates an Excel-based data dictionary that maps raw variable names and categorical values to a standardized schema, applies that mapping to rename variables and recode factors, safely row-binds and column-binds waves, and anonymizes participant identifiers via salted SHA-256 hashing.</p>
 <p>Real-world longitudinal studies collect data across multiple waves, often with different teams, questionnaire versions, or even languages. The result is a collection of data frames that should be equivalent but often aren’t: column names differ, factor labels are in different languages, or values accumulate small typos over time. <code>armonia</code> handles this in four phases: build a dictionary, standardize each wave against it, assemble the waves into one dataset, and anonymize participant identifiers.</p>
 <div class="section level2">

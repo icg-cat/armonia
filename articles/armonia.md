@@ -157,7 +157,7 @@ dict_init(
 #> ℹ Building map using strategy: position
 #> ℹ The following variables are *not* identified as factors: email
 #> ℹ The following variables are *not* identified as factors: correo
-#> ✔ Dictionary initialized at /tmp/RtmpBAlZQ1/file1be62a0f0f10.xlsx
+#> ✔ Dictionary initialized at /tmp/RtmpLWlXYb/file1ac019c4f526.xlsx
 ```
 
 The workbook contains two key sheets:
@@ -305,7 +305,7 @@ exactly one `standard_label` across all waves.
 
 dict_validate(dict_path)
 #> ℹ Validating dictionary structure...
-#> ✔ Dictionary file1be62a0f0f10.xlsx passed validation.
+#> ✔ Dictionary file1ac019c4f526.xlsx passed validation.
 ```
 
 If any of these tests fail, the function aborts immediately with an
