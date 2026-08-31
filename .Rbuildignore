@@ -1,0 +1,13 @@
+^.*\.Rproj$
+^\.Rhistory$
+^\.Rproj\.user$
+^\.github$
+^\.gitignore$
+^data-raw$
+^debug$
+^dev docs$
+^docs$
+^zOld$
+^LICENSE\.md$
+^_pkgdown\.yml$
+^pkgdown$

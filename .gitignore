@@ -1,0 +1,11 @@
+agent_docs/
+data-raw/
+docs
+debug/
+inst/doc
+old_V1/
+.Rproj.user/
+.Rhistory
+.RData
+.Ruserdata
+.DS_Store
