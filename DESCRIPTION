@@ -40,6 +40,6 @@ Imports:
     tibble,
     tools,
     utils
-URL: https://github.com/your-username/armonia
+URL: https://github.com/your-username/armonia, https://icg-cat.github.io/armonia/
 BugReports: https://github.com/your-username/armonia/issues
 AI Assistance: Anthropic's Claude (Sonnet 4.6) was used as a coding assistant to help draft warning messages, English translations, `testthat` tests, and `roxygen2` examples. All AI outputs were reviewed and tested by the package maintainers.
