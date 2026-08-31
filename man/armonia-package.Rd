@@ -6,7 +6,18 @@
 \alias{armonia-package}
 \title{armonia: Harmonize Multilingual and Longitudinal Research Data}
 \description{
+\if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
+
 Tools for harmonizing multilingual and multi-wave research datasets. Generates an Excel-based data dictionary that maps raw variable names and categorical values to a standardized schema, applies the mapping to rename variables and recode factors to integers, safely row-binds and column-binds waves, and anonymizes participant identifiers via salted SHA-256 hashing.
+}
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/icg-cat/armonia}
+  \item \url{https://icg-cat.github.io/armonia/}
+  \item Report bugs at \url{https://github.com/icg-cat/armonia/issues}
+}
+
 }
 \author{
 \strong{Maintainer}: Irene Cruz \email{irene.cruz@uab.cat}
