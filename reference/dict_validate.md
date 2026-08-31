@@ -47,5 +47,5 @@ openxlsx::write.xlsx(
 
 dict_validate(dict_path)
 #> ℹ Validating dictionary structure...
-#> ✔ Dictionary file1c1945de0ecc.xlsx passed validation.
+#> ✔ Dictionary file1c2a52a073d6.xlsx passed validation.
 ```

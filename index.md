@@ -18,12 +18,12 @@ identifiers.
 
 ## Installation
 
-`armonia` is not yet on CRAN. Until it is, install from a local clone:
+`armonia` is not yet on CRAN. Until it is:
 
 ``` r
 
-# install.packages("remotes")
-remotes::install_local("path/to/armonia")
+library(devtools)
+install_github("icg-cat/armonia")
 ```
 
 ## Quick example
@@ -68,3 +68,17 @@ vignette("armonia")
 ## License
 
 MIT. See `LICENSE.md` for the full text.
+
+## AI Usage Disclosure
+
+This package was developed with the assistance of Anthropic’s Claude
+(Sonnet 4.6) for the following tasks:
+
+- Code revision, formatting, and general feedback
+- Drafting warning messages
+- Translating documentation from Spanish to English
+- Generating `roxygen2` documentation examples and toy datasets
+- Writing unit tests using `testthat`
+
+All AI-generated code and text was reviewed, edited and tested by the
+human authors to ensure reliability.
