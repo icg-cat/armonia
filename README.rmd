@@ -1,3 +1,6 @@
+---
+output: github_document
+---
 # armonia <a href="https://icg-cat.github.io/armonia/"><img src="man/figures/logo.png" align="right" height="139" alt="armonia website" /></a>
 
 Tools for harmonizing multilingual and multi-wave research datasets. `armonia` generates an Excel-based data dictionary that maps raw variable names and categorical values to a standardized schema, applies that mapping to rename variables and recode factors, safely row-binds and column-binds waves, and anonymizes participant identifiers via salted SHA-256 hashing.
