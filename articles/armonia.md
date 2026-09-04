@@ -157,7 +157,7 @@ dict_init(
 #> ℹ Building map using strategy: position
 #> ℹ The following variables are *not* identified as factors: email
 #> ℹ The following variables are *not* identified as factors: correo
-#> ✔ Dictionary initialized at /tmp/RtmpYcDcTv/file1dc545244184.xlsx
+#> ✔ Dictionary initialized at /tmp/RtmpwSkkO7/file1a503eb1a6e0.xlsx
 ```
 
 The workbook contains two key sheets:
@@ -305,7 +305,7 @@ exactly one `standard_label` across all waves.
 
 dict_validate(dict_path)
 #> ℹ Validating dictionary structure...
-#> ✔ Dictionary file1dc545244184.xlsx passed validation.
+#> ✔ Dictionary file1a503eb1a6e0.xlsx passed validation.
 ```
 
 If any of these tests fail, the function aborts immediately with an
@@ -597,10 +597,10 @@ longitudinal <- harm_add_timepoint(
 #> 
 #> ── Longitudinal join audit ──
 #> 
-#> • Matched (both waves): 9
-#> • Attrition (master only): 1
-#> • recruitment (new only): 1
-#> • Total participants: 11
+#> • Matched (both waves): 8
+#> • Attrition (master only): 2
+#> • recruitment (new only): 2
+#> • Total participants: 12
 #> ℹ New participants added. Check if these are valid new recruits or ID typos.
 knitr::kable(longitudinal, caption = "Wide-format longitudinal dataset")
 ```
@@ -608,7 +608,7 @@ knitr::kable(longitudinal, caption = "Wide-format longitudinal dataset")
 | id | gender | mood | wellbeing | sympt_cramps | sympt_headache | sympt_none | gender_w2 | mood_w2 | wellbeing_w2 | sympt_cramps_w2 | sympt_headache_w2 | sympt_none_w2 |
 |:---|:---|:---|---:|:---|:---|:---|:---|:---|---:|:---|:---|:---|
 | <alice@uni.edu> | 1 | 1 | 8 | 1 | 1 | 2 | 1 | 1 | 9 | 1 | 1 | 2 |
-| <bob@gmail.com> | 2 | 2 | 5 | 2 | 2 | 1 | 2 | 2 | 6 | 1 | 2 | 1 |
+| <bob@gmail.co> | 2 | 2 | 5 | 2 | 2 | 1 | NA | NA | NA | NA | NA | NA |
 | <carol@yahoo.com> | 1 | 3 | 3 | 2 | 2 | 1 | 1 | 3 | 4 | 2 | 1 | 1 |
 | <david@uni.edu> | 2 | 1 | 7 | 1 | 1 | 2 | 2 | 1 | 8 | 1 | 1 | 2 |
 | <eva@outlook.com> | 1 | 1 | 9 | 1 | 1 | 2 | 1 | 1 | 9 | 2 | 1 | 1 |
@@ -617,6 +617,7 @@ knitr::kable(longitudinal, caption = "Wide-format longitudinal dataset")
 | <henry@yahoo.com> | 2 | 1 | 8 | 1 | 2 | 1 | 2 | 1 | 9 | 1 | 1 | 2 |
 | <iris@gmail.com> | 1 | 3 | 4 | 2 | 2 | 1 | 1 | 3 | 5 | 2 | 2 | 1 |
 | <jack@uni.edu> | 2 | 2 | 6 | 1 | 1 | 2 | NA | NA | NA | NA | NA | NA |
+| <bob@gmail.com> | NA | NA | NA | NA | NA | NA | 2 | 2 | 6 | 1 | 2 | 1 |
 | <newbie@gmail.com> | NA | NA | NA | NA | NA | NA | 2 | 1 | 7 | 1 | 1 | 2 |
 
 Wide-format longitudinal dataset {.table style="width:100%;"}
@@ -663,7 +664,7 @@ data.frame(
 | raw               | cleaned           |
 |:------------------|:------------------|
 | <alice@uni.edu>   | <alice@uni.edu>   |
-| <bob@gmail.co>    | <bob@gmail.com>   |
+| <bob@gmail.co>    | <bob@gmail.co>    |
 | <carol@yahoo.com> | <carol@yahoo.com> |
 | <david@uni.edu>   | <david@uni.edu>   |
 | <eva@outlook.com> | <eva@outlook.com> |
@@ -749,7 +750,7 @@ data.frame(
 | email             | pseudo_id    |
 |:------------------|:-------------|
 | <alice@uni.edu>   | a4007f7aaf6e |
-| <bob@gmail.com>   | 9d0c43960e3e |
+| <bob@gmail.co>    | 627d8d9c612d |
 | <carol@yahoo.com> | 2a750aaa0a36 |
 | <david@uni.edu>   | 71255bf81315 |
 | <eva@outlook.com> | bbff241474fe |
@@ -774,7 +775,7 @@ knitr::kable(longitudinal, caption = "Final anonymized longitudinal dataset")
 | gender | mood | wellbeing | sympt_cramps | sympt_headache | sympt_none | gender_w2 | mood_w2 | wellbeing_w2 | sympt_cramps_w2 | sympt_headache_w2 | sympt_none_w2 | pseudo_id |
 |:---|:---|---:|:---|:---|:---|:---|:---|---:|:---|:---|:---|:---|
 | 1 | 1 | 8 | 1 | 1 | 2 | 1 | 1 | 9 | 1 | 1 | 2 | a4007f7aaf6e |
-| 2 | 2 | 5 | 2 | 2 | 1 | 2 | 2 | 6 | 1 | 2 | 1 | 9d0c43960e3e |
+| 2 | 2 | 5 | 2 | 2 | 1 | NA | NA | NA | NA | NA | NA | 627d8d9c612d |
 | 1 | 3 | 3 | 2 | 2 | 1 | 1 | 3 | 4 | 2 | 1 | 1 | 2a750aaa0a36 |
 | 2 | 1 | 7 | 1 | 1 | 2 | 2 | 1 | 8 | 1 | 1 | 2 | 71255bf81315 |
 | 1 | 1 | 9 | 1 | 1 | 2 | 1 | 1 | 9 | 2 | 1 | 1 | bbff241474fe |
@@ -783,6 +784,7 @@ knitr::kable(longitudinal, caption = "Final anonymized longitudinal dataset")
 | 2 | 1 | 8 | 1 | 2 | 1 | 2 | 1 | 9 | 1 | 1 | 2 | 9fdec6d5e5a8 |
 | 1 | 3 | 4 | 2 | 2 | 1 | 1 | 3 | 5 | 2 | 2 | 1 | 127f3885ba0a |
 | 2 | 2 | 6 | 1 | 1 | 2 | NA | NA | NA | NA | NA | NA | 89b07728a167 |
+| NA | NA | NA | NA | NA | NA | 2 | 2 | 6 | 1 | 2 | 1 | 9d0c43960e3e |
 | NA | NA | NA | NA | NA | NA | 2 | 1 | 7 | 1 | 1 | 2 | 8fb49c6fb9f3 |
 
 Final anonymized longitudinal dataset {.table}

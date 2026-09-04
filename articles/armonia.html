@@ -267,7 +267,7 @@ and language.</p>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Building map using strategy: <span style="font-weight: bold;">position</span></span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> The following variables are *not* identified as factors: email</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> The following variables are *not* identified as factors: correo</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Dictionary initialized at <span style="color: #0000BB;">/tmp/RtmpYcDcTv/file1dc545244184.xlsx</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Dictionary initialized at <span style="color: #0000BB;">/tmp/RtmpwSkkO7/file1a503eb1a6e0.xlsx</span></span></span></code></pre></div>
 <p>The workbook contains two key sheets:</p>
 <ul>
 <li>
@@ -736,7 +736,7 @@ to exactly one <code>standard_label</code> across all waves.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/dict_validate.html">dict_validate</a></span><span class="op">(</span><span class="va">dict_path</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Validating dictionary structure...</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Dictionary <span style="color: #0000BB;">file1dc545244184.xlsx</span> passed validation.</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Dictionary <span style="color: #0000BB;">file1a503eb1a6e0.xlsx</span> passed validation.</span></span></code></pre></div>
 <p>If any of these tests fail, the function aborts immediately with an
 informative message. Two examples:</p>
 <pre><code>✖ All target_names must be lowercase, no spaces, no special chars.</code></pre>
@@ -1473,10 +1473,10 @@ every new variable so columns do not collide.</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ── <span style="font-weight: bold;">Longitudinal join audit</span> ──</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; • Matched (both waves): <span style="color: #0000BB;">9</span></span></span>
-<span><span class="co">#&gt; • Attrition (master only): <span style="color: #0000BB;">1</span></span></span>
-<span><span class="co">#&gt; • recruitment (new only): <span style="color: #0000BB;">1</span></span></span>
-<span><span class="co">#&gt; • Total participants: <span style="color: #0000BB;">11</span></span></span>
+<span><span class="co">#&gt; • Matched (both waves): <span style="color: #0000BB;">8</span></span></span>
+<span><span class="co">#&gt; • Attrition (master only): <span style="color: #0000BB;">2</span></span></span>
+<span><span class="co">#&gt; • recruitment (new only): <span style="color: #0000BB;">2</span></span></span>
+<span><span class="co">#&gt; • Total participants: <span style="color: #0000BB;">12</span></span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> New participants added. Check if these are valid new recruits or ID typos.</span></span>
 <span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">longitudinal</span>, caption <span class="op">=</span> <span class="st">"Wide-format longitudinal dataset"</span><span class="op">)</span></span></code></pre></div>
 <table style="width:100%;" class="table">
@@ -1528,19 +1528,19 @@ every new variable so columns do not collide.</p>
 <td align="left">2</td>
 </tr>
 <tr class="even">
-<td align="left"><a href="mailto:bob@gmail.com" class="email">bob@gmail.com</a></td>
+<td align="left"><a href="mailto:bob@gmail.co" class="email">bob@gmail.co</a></td>
 <td align="left">2</td>
 <td align="left">2</td>
 <td align="right">5</td>
 <td align="left">2</td>
 <td align="left">2</td>
 <td align="left">1</td>
-<td align="left">2</td>
-<td align="left">2</td>
-<td align="right">6</td>
-<td align="left">1</td>
-<td align="left">2</td>
-<td align="left">1</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
 </tr>
 <tr class="odd">
 <td align="left"><a href="mailto:carol@yahoo.com" class="email">carol@yahoo.com</a></td>
@@ -1663,6 +1663,21 @@ every new variable so columns do not collide.</p>
 <td align="left">NA</td>
 </tr>
 <tr class="odd">
+<td align="left"><a href="mailto:bob@gmail.com" class="email">bob@gmail.com</a></td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">2</td>
+<td align="left">2</td>
+<td align="right">6</td>
+<td align="left">1</td>
+<td align="left">2</td>
+<td align="left">1</td>
+</tr>
+<tr class="even">
 <td align="left"><a href="mailto:newbie@gmail.com" class="email">newbie@gmail.com</a></td>
 <td align="left">NA</td>
 <td align="left">NA</td>
@@ -1733,7 +1748,7 @@ automatically</caption>
 </tr>
 <tr class="even">
 <td align="left"><a href="mailto:bob@gmail.co" class="email">bob@gmail.co</a></td>
-<td align="left"><a href="mailto:bob@gmail.com" class="email">bob@gmail.com</a></td>
+<td align="left"><a href="mailto:bob@gmail.co" class="email">bob@gmail.co</a></td>
 </tr>
 <tr class="odd">
 <td align="left"><a href="mailto:carol@yahoo.com" class="email">carol@yahoo.com</a></td>
@@ -1932,8 +1947,8 @@ with an empty key.</p>
 <td align="left">a4007f7aaf6e</td>
 </tr>
 <tr class="even">
-<td align="left"><a href="mailto:bob@gmail.com" class="email">bob@gmail.com</a></td>
-<td align="left">9d0c43960e3e</td>
+<td align="left"><a href="mailto:bob@gmail.co" class="email">bob@gmail.co</a></td>
+<td align="left">627d8d9c612d</td>
 </tr>
 <tr class="odd">
 <td align="left"><a href="mailto:carol@yahoo.com" class="email">carol@yahoo.com</a></td>
@@ -2031,13 +2046,13 @@ column:</p>
 <td align="left">2</td>
 <td align="left">2</td>
 <td align="left">1</td>
-<td align="left">2</td>
-<td align="left">2</td>
-<td align="right">6</td>
-<td align="left">1</td>
-<td align="left">2</td>
-<td align="left">1</td>
-<td align="left">9d0c43960e3e</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">627d8d9c612d</td>
 </tr>
 <tr class="odd">
 <td align="left">1</td>
@@ -2160,6 +2175,21 @@ column:</p>
 <td align="left">89b07728a167</td>
 </tr>
 <tr class="odd">
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">2</td>
+<td align="left">2</td>
+<td align="right">6</td>
+<td align="left">1</td>
+<td align="left">2</td>
+<td align="left">1</td>
+<td align="left">9d0c43960e3e</td>
+</tr>
+<tr class="even">
 <td align="left">NA</td>
 <td align="left">NA</td>
 <td align="right">NA</td>
@@ -2354,7 +2384,7 @@ documentation.</p>
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by Irene Cruz.</p>
+  <p>Developed by Irene Cruz, International Center for Vision Coaching (UIDHL).</p>
 </div>
 
 <div class="pkgdown-footer-right">

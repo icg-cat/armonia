@@ -100,7 +100,7 @@ new_wave <- data.frame(
 
 result <- dict_check_compat(dict_path, new_wave)
 #> ℹ Validating dictionary structure...
-#> ✔ Dictionary file1bf05d0bbfdb.xlsx passed validation.
+#> ✔ Dictionary file1878444629bf.xlsx passed validation.
 #> 
 #> ── Dictionary compatibility report ─────────────────────────────────────────────
 #> ! 1 variable in data not covered by dictionary ($missing_vars):

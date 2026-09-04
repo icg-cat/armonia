@@ -27,5 +27,5 @@ hashing.
 ``` r
 emails <- c("alice@uni.edu", "BOB@gmail.co ", NA)
 anon_clean_email(emails)
-#> [1] "alice@uni.edu" "bob@gmail.com" NA             
+#> [1] "alice@uni.edu" "bob@gmail.co"  NA             
 ```

@@ -6,6 +6,8 @@
 
 - **Alejandro González Heras**. Contributor.
 
+- **International Center for Vision Coaching (UIDHL)**. Funder.
+
 ## Citation
 
 Source:
