@@ -3,7 +3,8 @@ Title: Harmonize Multilingual and Longitudinal Research Data
 Version: 2.0.0
 Authors@R: c(
     person("Irene", "Cruz", email = "irene.cruz@uab.cat", role = c("aut", "cre")), 
-    person("Alejandro", "González Heras", email = "alejo.heras.vision@gmail.com", role = "ctb")
+    person("Alejandro", "González Heras", email = "alejo.heras.vision@gmail.com", role = "ctb"), 
+    person("International Center for Vision Coaching (UIDHL)", role = "fnd")
     )
 Description: Tools for harmonizing multilingual and multi-wave research datasets.
     Generates an Excel-based data dictionary that maps raw variable names and

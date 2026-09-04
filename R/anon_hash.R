@@ -22,11 +22,7 @@ anon_clean_email <- function(x) {
   # Standardize: trim whitespace and lowercase
   clean_x <- trimws(tolower(as.character(x)))
 
-  # Replace common error strings
-  clean_x <- stringr::str_replace(
-    string = clean_x,
-    pattern = "\\.co$",
-    replacement = ".com")
+  # Replace common error strings.
 
   clean_x <- stringr::str_replace(
     string = clean_x,
