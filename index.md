@@ -82,3 +82,12 @@ This package was developed with the assistance of Anthropic’s Claude
 
 All AI-generated code and text was reviewed, edited and tested by the
 human authors to ensure reliability.
+
+## Acknowledgements
+
+`armonia` was commissioned by the [International Center for Vision
+Coaching](https://internationalcenterforvisioncoaching.com) at the
+[Universidad Internacional en Desarrollo Humano y Liderazgo
+(UIDHL)](https://culider.edu.mx), as part of the International Study on
+the Evolution of Vision, a longitudinal, participatory, multi-country
+study of natural vision improvement.
