@@ -54,7 +54,7 @@ We start with two data frames. Wave 1 was collected in English; Wave 2 was colle
 
 ```{r raw-data}
 wave1 <- data.frame(
-  email     = c("alice@uni.edu", "bob@gmail.co", "carol@yahoo.com",
+  email     = c("alice@uni.edu", "bob@gnail.com", "carol@yahoo.com",
                 "david@uni.edu", "eva@outlook.com", "frank@gmail.com",
                 "grace@uni.edu", "henry@yahoo.com", "iris@gmail.com",
                 "jack@uni.edu"),
@@ -450,15 +450,14 @@ data.frame(
   raw     = wave1$email,
   cleaned = anon_clean_email(wave1$email)
 ) |>
-  knitr::kable(caption = "Email cleaning: Bob's .co typo corrected automatically")
+  knitr::kable(caption = "Email cleaning: Bob's 'gnail' typo corrected automatically")
 ```
 
-Supported corrections: `.co` to `.com`, `.con` to `.com`, `@gogle` to `@google`.
 Empty strings and `NA` values are preserved as `NA_character_`, hashing the literal string `"NA"` would be a silent data error.
 
-### list of common typos {.tabset}
+### List of common typos {.tabset}
 
-Common typos and mispellings that the function reviews:
+For a further assessment of e-mails and potential errors, the function `check_email()` reviews and flags things that could be problematic, leaving to the researcher the decision to make changes. Common typos and misspellings that the function reviews:
 
 #### domain typos
 
@@ -494,7 +493,7 @@ Common typos and mispellings that the function reviews:
 "sv", "gt", "hn", "ni", "pa", "py", "pe", "uy", "ve",
 "me", "ws"
 
-#### other reviws
+#### other reviews
 
 * mailto: prefix
 * surrounding quotes
@@ -506,7 +505,7 @@ Common typos and mispellings that the function reviews:
 * handle starts or ends with dot
 * domain starts or ends with dot
 * domain starts or ends with hyphen
-*
+
 
 ### 5.2  Hashing IDs with `anon_hash()`
 

@@ -13,9 +13,9 @@ Tools for harmonizing multilingual and multi-wave research datasets. Generates a
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://github.com/icg-cat/armonia}
+  \item \url{https://github.com/your-username/armonia}
   \item \url{https://icg-cat.github.io/armonia/}
-  \item Report bugs at \url{https://github.com/icg-cat/armonia/issues}
+  \item Report bugs at \url{https://github.com/your-username/armonia/issues}
 }
 
 }
@@ -25,6 +25,7 @@ Useful links:
 Other contributors:
 \itemize{
   \item Alejandro González Heras \email{alejo.heras.vision@gmail.com} [contributor]
+  \item International Center for Vision Coaching (UIDHL) [funder]
 }
 
 }

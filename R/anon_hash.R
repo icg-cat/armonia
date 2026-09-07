@@ -34,6 +34,11 @@ anon_clean_email <- function(x) {
     pattern = "@gogle",
     replacement = "@google")
 
+  clean_x <- stringr::str_replace(
+    string = clean_x,
+    pattern = "@gnail",
+    replacement = "@gmail")
+
   # Ensure NAs are preserved as NA_character_ to avoid hashing the string "NA"
   clean_x[is.na(x) | x == ""] <- NA_character_
 

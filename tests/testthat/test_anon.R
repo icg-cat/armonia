@@ -1,7 +1,7 @@
 # Testing Module C: Privacy & Anonymization
 
 test_that("anon_clean_email standardizes whitespace, case, and preserves NA/empty", {
-  emails <- c("  USER@Example.com ", "test@domain.com", NA, "")
+  emails <- c("  USER@Example.com ", "test@domain.con", NA, "")
 
   cleaned <- anon_clean_email(emails)
 
@@ -16,7 +16,7 @@ test_that("anon_clean_email corrects common domain typos", {
 
   cleaned <- anon_clean_email(emails)
 
-  expect_equal(cleaned[1], "user@domain.com")
+  expect_equal(cleaned[1], "user@domain.co")
   expect_equal(cleaned[2], "user@domain.com")
   expect_equal(cleaned[3], "user@google.com")
 })

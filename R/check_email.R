@@ -19,7 +19,7 @@
 #'   the flagged issues joined with \code{"; "}).
 #'
 #' @examples
-#' emails <- c("alice@uni.edu", "bob@gmail.co", "carol@yahoo.com")
+#' emails <- c("alice@uni.edu", "bob@gmail.con", "carol@yahoo.com")
 #' check_email(emails)
 #'
 #' @export
@@ -31,6 +31,7 @@ check_email <- function(x) {
     "gogle.com"    = "google.com",
     "googl.com"    = "google.com",
     "gmial.com"    = "gmail.com",
+    "gnail.com"    = "gmail.com",
     "gmai.com"     = "gmail.com",
     "gamil.com"    = "gmail.com",
     "gmmail.com"   = "gmail.com",

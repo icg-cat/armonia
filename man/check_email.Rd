@@ -28,7 +28,7 @@ top-level domains. Each address gets an overall \code{flag} of
 semicolon-separated \code{reason} explaining what was flagged.
 }
 \examples{
-emails <- c("alice@uni.edu", "bob@gmail.co", "carol@yahoo.com")
+emails <- c("alice@uni.edu", "bob@gmail.con", "carol@yahoo.com")
 check_email(emails)
 
 }
