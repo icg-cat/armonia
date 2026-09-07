@@ -267,7 +267,7 @@ and language.</p>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Building map using strategy: <span style="font-weight: bold;">position</span></span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> The following variables are *not* identified as factors: email</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> The following variables are *not* identified as factors: correo</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Dictionary initialized at <span style="color: #0000BB;">/tmp/RtmpV1mOPQ/file1b2a7a78babc.xlsx</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Dictionary initialized at <span style="color: #0000BB;">/tmp/RtmpqzqhZL/file1a821180afc0.xlsx</span></span></span></code></pre></div>
 <p>The workbook contains two key sheets:</p>
 <ul>
 <li>
@@ -736,7 +736,7 @@ to exactly one <code>standard_label</code> across all waves.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/dict_validate.html">dict_validate</a></span><span class="op">(</span><span class="va">dict_path</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Validating dictionary structure...</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Dictionary <span style="color: #0000BB;">file1b2a7a78babc.xlsx</span> passed validation.</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Dictionary <span style="color: #0000BB;">file1a821180afc0.xlsx</span> passed validation.</span></span></code></pre></div>
 <p>If any of these tests fail, the function aborts immediately with an
 informative message. Two examples:</p>
 <pre><code>✖ All target_names must be lowercase, no spaces, no special chars.</code></pre>
@@ -1444,17 +1444,281 @@ each match.</p>
 </table>
 <p>Rows where <code>all_equal</code> is <code>FALSE</code> deserve
 attention. Here, <code>bob@gmail.com</code> (wave 2) best-matches
-<code>bob@gmail.co</code> (wave 1), a clear <code>.co</code> vs
-<code>.com</code> typo. Without correction, Bob would appear as a
+<code>bob@gnail.com</code> (wave 1), a clear <code>gmail</code> vs
+<code>gnail</code> typo. Without correction, Bob would appear as a
 <em>new participant</em> rather than a returning one.</p>
-<p>Once typos are confirmed, corrections need to be performed before
-joining. The helper function <code><a href="../reference/anon_clean_email.html">anon_clean_email()</a></code> is
-specifically designed for instances where e-mails act as identifiers,
-and it automatically fixes common patterns including the
-<code>.co</code> vs <code>.com</code> typo:</p>
+</div>
+<div class="section level3">
+<h3 id="cleaning-emails-with-anon_clean_email-and-check_email">4.2 Cleaning emails with <code>anon_clean_email()</code> and
+<code>check_email()</code><a class="anchor" aria-label="anchor" href="#cleaning-emails-with-anon_clean_email-and-check_email"></a>
+</h3>
+<p>For instances where e-mails act as identifiers,
+<code><a href="../reference/anon_clean_email.html">anon_clean_email()</a></code> and <code><a href="../reference/check_email.html">check_email()</a></code> simplify
+the auditing job. The former standardizes email strings, lowercases,
+trims whitespace, and corrects very obvious typos, producing a clean,
+consistent input for hashing. The latter produces a further assessment
+of e-mails and potential errors beyond the very obvious, by flagging
+things that could be problematic and leaving to the researcher the
+decision to make changes.</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">std_w1_clean</span>      <span class="op">&lt;-</span> <span class="va">std_w1</span></span>
-<span><span class="va">std_w1_clean</span><span class="op">$</span><span class="va">id</span>   <span class="op">&lt;-</span> <span class="fu"><a href="../reference/anon_clean_email.html">anon_clean_email</a></span><span class="op">(</span><span class="va">std_w1</span><span class="op">$</span><span class="va">id</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">std_w1_clean</span><span class="op">$</span><span class="va">id</span>   <span class="op">&lt;-</span> <span class="fu"><a href="../reference/anon_clean_email.html">anon_clean_email</a></span><span class="op">(</span><span class="va">std_w1</span><span class="op">$</span><span class="va">id</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
+<span>  raw     <span class="op">=</span> <span class="va">wave1</span><span class="op">$</span><span class="va">email</span>,</span>
+<span>  cleaned <span class="op">=</span> <span class="va">std_w1_clean</span><span class="op">$</span><span class="va">id</span></span>
+<span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span>caption <span class="op">=</span> <span class="st">"Email cleaning: Bob's 'gnail' typo corrected automatically"</span><span class="op">)</span></span></code></pre></div>
+<table class="table">
+<caption>Email cleaning: Bob’s ‘gnail’ typo corrected
+automatically</caption>
+<thead><tr class="header">
+<th align="left">raw</th>
+<th align="left">cleaned</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left"><a href="mailto:alice@uni.edu" class="email">alice@uni.edu</a></td>
+<td align="left"><a href="mailto:alice@uni.edu" class="email">alice@uni.edu</a></td>
+</tr>
+<tr class="even">
+<td align="left"><a href="mailto:bob@gnail.com" class="email">bob@gnail.com</a></td>
+<td align="left"><a href="mailto:bob@gmail.com" class="email">bob@gmail.com</a></td>
+</tr>
+<tr class="odd">
+<td align="left"><a href="mailto:carol@yahoo.com" class="email">carol@yahoo.com</a></td>
+<td align="left"><a href="mailto:carol@yahoo.com" class="email">carol@yahoo.com</a></td>
+</tr>
+<tr class="even">
+<td align="left"><a href="mailto:david@uni.edu" class="email">david@uni.edu</a></td>
+<td align="left"><a href="mailto:david@uni.edu" class="email">david@uni.edu</a></td>
+</tr>
+<tr class="odd">
+<td align="left"><a href="mailto:eva@outlook.com" class="email">eva@outlook.com</a></td>
+<td align="left"><a href="mailto:eva@outlook.com" class="email">eva@outlook.com</a></td>
+</tr>
+<tr class="even">
+<td align="left"><a href="mailto:frank@gmail.com" class="email">frank@gmail.com</a></td>
+<td align="left"><a href="mailto:frank@gmail.com" class="email">frank@gmail.com</a></td>
+</tr>
+<tr class="odd">
+<td align="left"><a href="mailto:grace@uni.edu" class="email">grace@uni.edu</a></td>
+<td align="left"><a href="mailto:grace@uni.edu" class="email">grace@uni.edu</a></td>
+</tr>
+<tr class="even">
+<td align="left"><a href="mailto:henry@yahoo.com" class="email">henry@yahoo.com</a></td>
+<td align="left"><a href="mailto:henry@yahoo.com" class="email">henry@yahoo.com</a></td>
+</tr>
+<tr class="odd">
+<td align="left"><a href="mailto:iris@gmail.com" class="email">iris@gmail.com</a></td>
+<td align="left"><a href="mailto:iris@gmail.com" class="email">iris@gmail.com</a></td>
+</tr>
+<tr class="even">
+<td align="left"><a href="mailto:jack@uni.edu" class="email">jack@uni.edu</a></td>
+<td align="left"><a href="mailto:jack@uni.edu" class="email">jack@uni.edu</a></td>
+</tr>
+</tbody>
+</table>
+<p>Empty strings and <code>NA</code> values are preserved as
+<code>NA_character_</code>, hashing the literal string <code>"NA"</code>
+would be a silent data error.</p>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/check_email.html">check_email</a></span><span class="op">(</span><span class="va">wave1</span><span class="op">$</span><span class="va">email</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<table class="table">
+<colgroup>
+<col width="16%">
+<col width="15%">
+<col width="67%">
+</colgroup>
+<thead><tr class="header">
+<th align="left">email</th>
+<th align="left">flag</th>
+<th align="left">reason</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left"><a href="mailto:alice@uni.edu" class="email">alice@uni.edu</a></td>
+<td align="left">ok</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left"><a href="mailto:bob@gnail.com" class="email">bob@gnail.com</a></td>
+<td align="left">likely_mistake</td>
+<td align="left">possible domain misspelling: gnail.com (did you mean
+gmail.com?)</td>
+</tr>
+<tr class="odd">
+<td align="left"><a href="mailto:carol@yahoo.com" class="email">carol@yahoo.com</a></td>
+<td align="left">ok</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left"><a href="mailto:david@uni.edu" class="email">david@uni.edu</a></td>
+<td align="left">ok</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left"><a href="mailto:eva@outlook.com" class="email">eva@outlook.com</a></td>
+<td align="left">ok</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left"><a href="mailto:frank@gmail.com" class="email">frank@gmail.com</a></td>
+<td align="left">ok</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left"><a href="mailto:grace@uni.edu" class="email">grace@uni.edu</a></td>
+<td align="left">ok</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left"><a href="mailto:henry@yahoo.com" class="email">henry@yahoo.com</a></td>
+<td align="left">ok</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left"><a href="mailto:iris@gmail.com" class="email">iris@gmail.com</a></td>
+<td align="left">ok</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left"><a href="mailto:jack@uni.edu" class="email">jack@uni.edu</a></td>
+<td align="left">ok</td>
+<td align="left">NA</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section level3 tabset">
+<h3 class="tabset" id="list-of-common-typos">List of common typos<a class="anchor" aria-label="anchor" href="#list-of-common-typos"></a>
+</h3>
+<p>Common typos and misspellings that <code><a href="../reference/check_email.html">check_email()</a></code>
+reviews:</p>
+
+
+
+<ul class="nav nav-tabs" id="list-of-common-typos" role="tablist">
+<li role="presentation" class="nav-item"><button data-bs-toggle="tab" data-bs-target="#domain-typos" id="domain-typos-tab" type="button" role="tab" aria-controls="domain-typos" aria-selected="true" class="active nav-link">domain typos</button></li>
+<li role="presentation" class="nav-item"><button data-bs-toggle="tab" data-bs-target="#tlds-whitelist" id="tlds-whitelist-tab" type="button" role="tab" aria-controls="tlds-whitelist" aria-selected="false" class="nav-link">tlds whitelist</button></li>
+<li role="presentation" class="nav-item"><button data-bs-toggle="tab" data-bs-target="#other-reviews" id="other-reviews-tab" type="button" role="tab" aria-controls="other-reviews" aria-selected="false" class="nav-link">other reviews</button></li>
+</ul>
+<div class="tab-content">
+<div class="active  tab-pane" id="domain-typos" role="tabpanel" aria-labelledby="domain-typos-tab">
+
+<table class="table">
+<thead><tr class="header">
+<th>Misspelling</th>
+<th>Replacement</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td>goggle.com</td>
+<td>google.com</td>
+</tr>
+<tr class="even">
+<td>gogle.com</td>
+<td>google.com</td>
+</tr>
+<tr class="odd">
+<td>googl.com</td>
+<td>google.com</td>
+</tr>
+<tr class="even">
+<td>gmial.com</td>
+<td>gmail.com</td>
+</tr>
+<tr class="odd">
+<td>gmai.com</td>
+<td>gmail.com</td>
+</tr>
+<tr class="even">
+<td>gamil.com</td>
+<td>gmail.com</td>
+</tr>
+<tr class="odd">
+<td>gmmail.com</td>
+<td>gmail.com</td>
+</tr>
+<tr class="even">
+<td>gmaill.com</td>
+<td>gmail.com</td>
+</tr>
+<tr class="odd">
+<td>hotmal.com</td>
+<td>hotmail.com</td>
+</tr>
+<tr class="even">
+<td>hotmial.com</td>
+<td>hotmail.com</td>
+</tr>
+<tr class="odd">
+<td>hotnail.com</td>
+<td>hotmail.com</td>
+</tr>
+<tr class="even">
+<td>hotmaill.com</td>
+<td>hotmail.com</td>
+</tr>
+<tr class="odd">
+<td>outlok.com</td>
+<td>outlook.com</td>
+</tr>
+<tr class="even">
+<td>outloook.com</td>
+<td>outlook.com</td>
+</tr>
+<tr class="odd">
+<td>yaho.com</td>
+<td>yahoo.com</td>
+</tr>
+<tr class="even">
+<td>yahooo.com</td>
+<td>yahoo.com</td>
+</tr>
+<tr class="odd">
+<td>iclod.com</td>
+<td>icloud.com</td>
+</tr>
+<tr class="even">
+<td>iclould.com</td>
+<td>icloud.com</td>
+</tr>
+<tr class="odd">
+<td>protonmal.com</td>
+<td>protonmail.com</td>
+</tr>
+<tr class="even">
+<td>————–</td>
+<td>—————–</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="tab-pane" id="tlds-whitelist" role="tabpanel" aria-labelledby="tlds-whitelist-tab">
+
+<p>“io”, “ai”, “co”, “uk”, “de”, “fr”, “es”, “it”, “nl”, “br”, “mx”,
+“ca”, “au”, “jp”, “cn”, “in”, “ru”, “za”, “ar”, “bo”, “br”, “cl”, “co”,
+“cr”, “cu”, “do”, “ec”, “sv”, “gt”, “hn”, “ni”, “pa”, “py”, “pe”, “uy”,
+“ve”, “me”, “ws”</p>
+</div>
+<div class="tab-pane" id="other-reviews" role="tabpanel" aria-labelledby="other-reviews-tab">
+
+<ul>
+<li>mailto: prefix</li>
+<li>surrounding quotes</li>
+<li>surrounding angle brackets</li>
+<li>missing @ or multiple @</li>
+<li>separator mistakes: comma or semicolon instead of dot</li>
+<li>space in address</li>
+<li>double dots</li>
+<li>handle starts or ends with dot</li>
+<li>domain starts or ends with dot</li>
+<li>domain starts or ends with hyphen</li>
+</ul>
+</div>
+</div>
 </div>
 <div class="section level3">
 <h3 id="building-the-longitudinal-dataset-with-harm_add_timepoint">4.2 Building the longitudinal dataset with
@@ -1463,7 +1727,7 @@ and it automatically fixes common patterns including the
 <p><code><a href="../reference/harm_add_timepoint.html">harm_add_timepoint()</a></code> performs a full outer join of the
 (corrected) wave-1 master against the wave-2 data, appending a suffix to
 every new variable so columns do not collide.</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">longitudinal</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/harm_add_timepoint.html">harm_add_timepoint</a></span><span class="op">(</span></span>
 <span>  master_data <span class="op">=</span> <span class="va">std_w1_clean</span>,</span>
 <span>  new_data    <span class="op">=</span> <span class="va">std_w2</span>,</span>
@@ -1704,208 +1968,11 @@ recruits or ID typos.” is a reminder to always run
 </h2>
 <p>Identifiers in data collection can be sensitive information. Before
 sharing the dataset with colleagues or publishing, researchers can
-replace them with pseudonymous hashes.</p>
+replace them with pseudonymous hashes. Before hashing, make sure the
+e-mails have been validated using <code><a href="../reference/anon_clean_email.html">anon_clean_email()</a></code> and
+<code><a href="../reference/check_email.html">check_email()</a></code>.</p>
 <div class="section level3">
-<h3 id="cleaning-emails-with-anon_clean_email">5.1 Cleaning emails with <code>anon_clean_email()</code><a class="anchor" aria-label="anchor" href="#cleaning-emails-with-anon_clean_email"></a>
-</h3>
-<p><code><a href="../reference/anon_clean_email.html">anon_clean_email()</a></code> standardizes email strings,
-lowercases, trims whitespace, and corrects common typos, producing a
-clean, consistent input for hashing. We already used it above to fix
-Bob’s ID before the longitudinal join; here we show it explicitly on the
-wave-1 emails:</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
-<span>  raw     <span class="op">=</span> <span class="va">wave1</span><span class="op">$</span><span class="va">email</span>,</span>
-<span>  cleaned <span class="op">=</span> <span class="fu"><a href="../reference/anon_clean_email.html">anon_clean_email</a></span><span class="op">(</span><span class="va">wave1</span><span class="op">$</span><span class="va">email</span><span class="op">)</span></span>
-<span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span>caption <span class="op">=</span> <span class="st">"Email cleaning: Bob's 'gnail' typo corrected automatically"</span><span class="op">)</span></span></code></pre></div>
-<table class="table">
-<caption>Email cleaning: Bob’s ‘gnail’ typo corrected
-automatically</caption>
-<thead><tr class="header">
-<th align="left">raw</th>
-<th align="left">cleaned</th>
-</tr></thead>
-<tbody>
-<tr class="odd">
-<td align="left"><a href="mailto:alice@uni.edu" class="email">alice@uni.edu</a></td>
-<td align="left"><a href="mailto:alice@uni.edu" class="email">alice@uni.edu</a></td>
-</tr>
-<tr class="even">
-<td align="left"><a href="mailto:bob@gnail.com" class="email">bob@gnail.com</a></td>
-<td align="left"><a href="mailto:bob@gmail.com" class="email">bob@gmail.com</a></td>
-</tr>
-<tr class="odd">
-<td align="left"><a href="mailto:carol@yahoo.com" class="email">carol@yahoo.com</a></td>
-<td align="left"><a href="mailto:carol@yahoo.com" class="email">carol@yahoo.com</a></td>
-</tr>
-<tr class="even">
-<td align="left"><a href="mailto:david@uni.edu" class="email">david@uni.edu</a></td>
-<td align="left"><a href="mailto:david@uni.edu" class="email">david@uni.edu</a></td>
-</tr>
-<tr class="odd">
-<td align="left"><a href="mailto:eva@outlook.com" class="email">eva@outlook.com</a></td>
-<td align="left"><a href="mailto:eva@outlook.com" class="email">eva@outlook.com</a></td>
-</tr>
-<tr class="even">
-<td align="left"><a href="mailto:frank@gmail.com" class="email">frank@gmail.com</a></td>
-<td align="left"><a href="mailto:frank@gmail.com" class="email">frank@gmail.com</a></td>
-</tr>
-<tr class="odd">
-<td align="left"><a href="mailto:grace@uni.edu" class="email">grace@uni.edu</a></td>
-<td align="left"><a href="mailto:grace@uni.edu" class="email">grace@uni.edu</a></td>
-</tr>
-<tr class="even">
-<td align="left"><a href="mailto:henry@yahoo.com" class="email">henry@yahoo.com</a></td>
-<td align="left"><a href="mailto:henry@yahoo.com" class="email">henry@yahoo.com</a></td>
-</tr>
-<tr class="odd">
-<td align="left"><a href="mailto:iris@gmail.com" class="email">iris@gmail.com</a></td>
-<td align="left"><a href="mailto:iris@gmail.com" class="email">iris@gmail.com</a></td>
-</tr>
-<tr class="even">
-<td align="left"><a href="mailto:jack@uni.edu" class="email">jack@uni.edu</a></td>
-<td align="left"><a href="mailto:jack@uni.edu" class="email">jack@uni.edu</a></td>
-</tr>
-</tbody>
-</table>
-<p>Empty strings and <code>NA</code> values are preserved as
-<code>NA_character_</code>, hashing the literal string <code>"NA"</code>
-would be a silent data error.</p>
-</div>
-<div class="section level3 tabset">
-<h3 class="tabset" id="list-of-common-typos">List of common typos<a class="anchor" aria-label="anchor" href="#list-of-common-typos"></a>
-</h3>
-<p>For a further assessment of e-mails and potential errors, the
-function <code><a href="../reference/check_email.html">check_email()</a></code> reviews and flags things that could
-be problematic, leaving to the researcher the decision to make changes.
-Common typos and misspellings that the function reviews:</p>
-
-
-
-<ul class="nav nav-tabs" id="list-of-common-typos" role="tablist">
-<li role="presentation" class="nav-item"><button data-bs-toggle="tab" data-bs-target="#domain-typos" id="domain-typos-tab" type="button" role="tab" aria-controls="domain-typos" aria-selected="true" class="active nav-link">domain typos</button></li>
-<li role="presentation" class="nav-item"><button data-bs-toggle="tab" data-bs-target="#tlds-whitelist" id="tlds-whitelist-tab" type="button" role="tab" aria-controls="tlds-whitelist" aria-selected="false" class="nav-link">tlds whitelist</button></li>
-<li role="presentation" class="nav-item"><button data-bs-toggle="tab" data-bs-target="#other-reviews" id="other-reviews-tab" type="button" role="tab" aria-controls="other-reviews" aria-selected="false" class="nav-link">other reviews</button></li>
-</ul>
-<div class="tab-content">
-<div class="active  tab-pane" id="domain-typos" role="tabpanel" aria-labelledby="domain-typos-tab">
-
-<table class="table">
-<thead><tr class="header">
-<th>Misspelling</th>
-<th>Replacement</th>
-</tr></thead>
-<tbody>
-<tr class="odd">
-<td>goggle.com</td>
-<td>google.com</td>
-</tr>
-<tr class="even">
-<td>gogle.com</td>
-<td>google.com</td>
-</tr>
-<tr class="odd">
-<td>googl.com</td>
-<td>google.com</td>
-</tr>
-<tr class="even">
-<td>gmial.com</td>
-<td>gmail.com</td>
-</tr>
-<tr class="odd">
-<td>gmai.com</td>
-<td>gmail.com</td>
-</tr>
-<tr class="even">
-<td>gamil.com</td>
-<td>gmail.com</td>
-</tr>
-<tr class="odd">
-<td>gmmail.com</td>
-<td>gmail.com</td>
-</tr>
-<tr class="even">
-<td>gmaill.com</td>
-<td>gmail.com</td>
-</tr>
-<tr class="odd">
-<td>hotmal.com</td>
-<td>hotmail.com</td>
-</tr>
-<tr class="even">
-<td>hotmial.com</td>
-<td>hotmail.com</td>
-</tr>
-<tr class="odd">
-<td>hotnail.com</td>
-<td>hotmail.com</td>
-</tr>
-<tr class="even">
-<td>hotmaill.com</td>
-<td>hotmail.com</td>
-</tr>
-<tr class="odd">
-<td>outlok.com</td>
-<td>outlook.com</td>
-</tr>
-<tr class="even">
-<td>outloook.com</td>
-<td>outlook.com</td>
-</tr>
-<tr class="odd">
-<td>yaho.com</td>
-<td>yahoo.com</td>
-</tr>
-<tr class="even">
-<td>yahooo.com</td>
-<td>yahoo.com</td>
-</tr>
-<tr class="odd">
-<td>iclod.com</td>
-<td>icloud.com</td>
-</tr>
-<tr class="even">
-<td>iclould.com</td>
-<td>icloud.com</td>
-</tr>
-<tr class="odd">
-<td>protonmal.com</td>
-<td>protonmail.com</td>
-</tr>
-<tr class="even">
-<td>————–</td>
-<td>—————–</td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="tab-pane" id="tlds-whitelist" role="tabpanel" aria-labelledby="tlds-whitelist-tab">
-
-<p>“io”, “ai”, “co”, “uk”, “de”, “fr”, “es”, “it”, “nl”, “br”, “mx”,
-“ca”, “au”, “jp”, “cn”, “in”, “ru”, “za”, “ar”, “bo”, “br”, “cl”, “co”,
-“cr”, “cu”, “do”, “ec”, “sv”, “gt”, “hn”, “ni”, “pa”, “py”, “pe”, “uy”,
-“ve”, “me”, “ws”</p>
-</div>
-<div class="tab-pane" id="other-reviews" role="tabpanel" aria-labelledby="other-reviews-tab">
-
-<ul>
-<li>mailto: prefix</li>
-<li>surrounding quotes</li>
-<li>surrounding angle brackets</li>
-<li>missing @ or multiple @</li>
-<li>separator mistakes: comma or semicolon instead of dot</li>
-<li>space in address</li>
-<li>double dots</li>
-<li>handle starts or ends with dot</li>
-<li>domain starts or ends with dot</li>
-<li>domain starts or ends with hyphen</li>
-</ul>
-</div>
-</div>
-</div>
-<div class="section level3">
-<h3 id="hashing-ids-with-anon_hash">5.2 Hashing IDs with <code>anon_hash()</code><a class="anchor" aria-label="anchor" href="#hashing-ids-with-anon_hash"></a>
+<h3 id="hashing-ids-with-anon_hash">5.1 Hashing IDs with <code>anon_hash()</code><a class="anchor" aria-label="anchor" href="#hashing-ids-with-anon_hash"></a>
 </h3>
 <p><code><a href="../reference/anon_hash.html">anon_hash()</a></code> requires a project-specific salt stored in
 the <code>HARMONIZE_SALT</code> environment variable. It refuses to run

@@ -157,7 +157,7 @@ dict_init(
 #> ℹ Building map using strategy: position
 #> ℹ The following variables are *not* identified as factors: email
 #> ℹ The following variables are *not* identified as factors: correo
-#> ✔ Dictionary initialized at /tmp/RtmpV1mOPQ/file1b2a7a78babc.xlsx
+#> ✔ Dictionary initialized at /tmp/RtmpqzqhZL/file1a821180afc0.xlsx
 ```
 
 The workbook contains two key sheets:
@@ -305,7 +305,7 @@ exactly one `standard_label` across all waves.
 
 dict_validate(dict_path)
 #> ℹ Validating dictionary structure...
-#> ✔ Dictionary file1b2a7a78babc.xlsx passed validation.
+#> ✔ Dictionary file1a821180afc0.xlsx passed validation.
 ```
 
 If any of these tests fail, the function aborts immediately with an
@@ -562,22 +562,120 @@ knitr::kable(audit, caption = "ID audit: wave-2 IDs vs their best match in wave 
 ID audit: wave-2 IDs vs their best match in wave 1 {.table}
 
 Rows where `all_equal` is `FALSE` deserve attention. Here,
-`bob@gmail.com` (wave 2) best-matches `bob@gmail.co` (wave 1), a clear
-`.co` vs `.com` typo. Without correction, Bob would appear as a *new
+`bob@gmail.com` (wave 2) best-matches `bob@gnail.com` (wave 1), a clear
+`gmail` vs `gnail` typo. Without correction, Bob would appear as a *new
 participant* rather than a returning one.
 
-Once typos are confirmed, corrections need to be performed before
-joining. The helper function
+### 4.2 Cleaning emails with `anon_clean_email()` and `check_email()`
+
+For instances where e-mails act as identifiers,
 [`anon_clean_email()`](https://icg-cat.github.io/armonia/reference/anon_clean_email.md)
-is specifically designed for instances where e-mails act as identifiers,
-and it automatically fixes common patterns including the `.co` vs `.com`
-typo:
+and
+[`check_email()`](https://icg-cat.github.io/armonia/reference/check_email.md)
+simplify the auditing job. The former standardizes email strings,
+lowercases, trims whitespace, and corrects very obvious typos, producing
+a clean, consistent input for hashing. The latter produces a further
+assessment of e-mails and potential errors beyond the very obvious, by
+flagging things that could be problematic and leaving to the researcher
+the decision to make changes.
 
 ``` r
 
 std_w1_clean      <- std_w1
 std_w1_clean$id   <- anon_clean_email(std_w1$id)
+
+data.frame(
+  raw     = wave1$email,
+  cleaned = std_w1_clean$id
+) |>
+  knitr::kable(caption = "Email cleaning: Bob's 'gnail' typo corrected automatically")
 ```
+
+| raw               | cleaned           |
+|:------------------|:------------------|
+| <alice@uni.edu>   | <alice@uni.edu>   |
+| <bob@gnail.com>   | <bob@gmail.com>   |
+| <carol@yahoo.com> | <carol@yahoo.com> |
+| <david@uni.edu>   | <david@uni.edu>   |
+| <eva@outlook.com> | <eva@outlook.com> |
+| <frank@gmail.com> | <frank@gmail.com> |
+| <grace@uni.edu>   | <grace@uni.edu>   |
+| <henry@yahoo.com> | <henry@yahoo.com> |
+| <iris@gmail.com>  | <iris@gmail.com>  |
+| <jack@uni.edu>    | <jack@uni.edu>    |
+
+Email cleaning: Bob’s ‘gnail’ typo corrected automatically {.table}
+
+Empty strings and `NA` values are preserved as `NA_character_`, hashing
+the literal string `"NA"` would be a silent data error.
+
+``` r
+
+check_email(wave1$email) |> 
+  knitr::kable()
+```
+
+| email | flag | reason |
+|:---|:---|:---|
+| <alice@uni.edu> | ok | NA |
+| <bob@gnail.com> | likely_mistake | possible domain misspelling: gnail.com (did you mean gmail.com?) |
+| <carol@yahoo.com> | ok | NA |
+| <david@uni.edu> | ok | NA |
+| <eva@outlook.com> | ok | NA |
+| <frank@gmail.com> | ok | NA |
+| <grace@uni.edu> | ok | NA |
+| <henry@yahoo.com> | ok | NA |
+| <iris@gmail.com> | ok | NA |
+| <jack@uni.edu> | ok | NA |
+
+### List of common typos
+
+Common typos and misspellings that
+[`check_email()`](https://icg-cat.github.io/armonia/reference/check_email.md)
+reviews:
+
+- domain typos
+- tlds whitelist
+- other reviews
+
+| Misspelling   | Replacement    |
+|---------------|----------------|
+| goggle.com    | google.com     |
+| gogle.com     | google.com     |
+| googl.com     | google.com     |
+| gmial.com     | gmail.com      |
+| gmai.com      | gmail.com      |
+| gamil.com     | gmail.com      |
+| gmmail.com    | gmail.com      |
+| gmaill.com    | gmail.com      |
+| hotmal.com    | hotmail.com    |
+| hotmial.com   | hotmail.com    |
+| hotnail.com   | hotmail.com    |
+| hotmaill.com  | hotmail.com    |
+| outlok.com    | outlook.com    |
+| outloook.com  | outlook.com    |
+| yaho.com      | yahoo.com      |
+| yahooo.com    | yahoo.com      |
+| iclod.com     | icloud.com     |
+| iclould.com   | icloud.com     |
+| protonmal.com | protonmail.com |
+| ————–         | —————–         |
+
+“io”, “ai”, “co”, “uk”, “de”, “fr”, “es”, “it”, “nl”, “br”, “mx”, “ca”,
+“au”, “jp”, “cn”, “in”, “ru”, “za”, “ar”, “bo”, “br”, “cl”, “co”, “cr”,
+“cu”, “do”, “ec”, “sv”, “gt”, “hn”, “ni”, “pa”, “py”, “pe”, “uy”, “ve”,
+“me”, “ws”
+
+- mailto: prefix
+- surrounding quotes
+- surrounding angle brackets
+- missing @ or multiple @
+- separator mistakes: comma or semicolon instead of dot
+- space in address
+- double dots
+- handle starts or ends with dot
+- domain starts or ends with dot
+- domain starts or ends with hyphen
 
 ### 4.2 Building the longitudinal dataset with `harm_add_timepoint()`
 
@@ -641,95 +739,13 @@ The join audit summarises the study dynamics automatically:
 
 Identifiers in data collection can be sensitive information. Before
 sharing the dataset with colleagues or publishing, researchers can
-replace them with pseudonymous hashes.
-
-### 5.1 Cleaning emails with `anon_clean_email()`
-
+replace them with pseudonymous hashes. Before hashing, make sure the
+e-mails have been validated using
 [`anon_clean_email()`](https://icg-cat.github.io/armonia/reference/anon_clean_email.md)
-standardizes email strings, lowercases, trims whitespace, and corrects
-common typos, producing a clean, consistent input for hashing. We
-already used it above to fix Bob’s ID before the longitudinal join; here
-we show it explicitly on the wave-1 emails:
+and
+[`check_email()`](https://icg-cat.github.io/armonia/reference/check_email.md).
 
-``` r
-
-data.frame(
-  raw     = wave1$email,
-  cleaned = anon_clean_email(wave1$email)
-) |>
-  knitr::kable(caption = "Email cleaning: Bob's 'gnail' typo corrected automatically")
-```
-
-| raw               | cleaned           |
-|:------------------|:------------------|
-| <alice@uni.edu>   | <alice@uni.edu>   |
-| <bob@gnail.com>   | <bob@gmail.com>   |
-| <carol@yahoo.com> | <carol@yahoo.com> |
-| <david@uni.edu>   | <david@uni.edu>   |
-| <eva@outlook.com> | <eva@outlook.com> |
-| <frank@gmail.com> | <frank@gmail.com> |
-| <grace@uni.edu>   | <grace@uni.edu>   |
-| <henry@yahoo.com> | <henry@yahoo.com> |
-| <iris@gmail.com>  | <iris@gmail.com>  |
-| <jack@uni.edu>    | <jack@uni.edu>    |
-
-Email cleaning: Bob’s ‘gnail’ typo corrected automatically {.table}
-
-Empty strings and `NA` values are preserved as `NA_character_`, hashing
-the literal string `"NA"` would be a silent data error.
-
-### List of common typos
-
-For a further assessment of e-mails and potential errors, the function
-[`check_email()`](https://icg-cat.github.io/armonia/reference/check_email.md)
-reviews and flags things that could be problematic, leaving to the
-researcher the decision to make changes. Common typos and misspellings
-that the function reviews:
-
-- domain typos
-- tlds whitelist
-- other reviews
-
-| Misspelling   | Replacement    |
-|---------------|----------------|
-| goggle.com    | google.com     |
-| gogle.com     | google.com     |
-| googl.com     | google.com     |
-| gmial.com     | gmail.com      |
-| gmai.com      | gmail.com      |
-| gamil.com     | gmail.com      |
-| gmmail.com    | gmail.com      |
-| gmaill.com    | gmail.com      |
-| hotmal.com    | hotmail.com    |
-| hotmial.com   | hotmail.com    |
-| hotnail.com   | hotmail.com    |
-| hotmaill.com  | hotmail.com    |
-| outlok.com    | outlook.com    |
-| outloook.com  | outlook.com    |
-| yaho.com      | yahoo.com      |
-| yahooo.com    | yahoo.com      |
-| iclod.com     | icloud.com     |
-| iclould.com   | icloud.com     |
-| protonmal.com | protonmail.com |
-| ————–         | —————–         |
-
-“io”, “ai”, “co”, “uk”, “de”, “fr”, “es”, “it”, “nl”, “br”, “mx”, “ca”,
-“au”, “jp”, “cn”, “in”, “ru”, “za”, “ar”, “bo”, “br”, “cl”, “co”, “cr”,
-“cu”, “do”, “ec”, “sv”, “gt”, “hn”, “ni”, “pa”, “py”, “pe”, “uy”, “ve”,
-“me”, “ws”
-
-- mailto: prefix
-- surrounding quotes
-- surrounding angle brackets
-- missing @ or multiple @
-- separator mistakes: comma or semicolon instead of dot
-- space in address
-- double dots
-- handle starts or ends with dot
-- domain starts or ends with dot
-- domain starts or ends with hyphen
-
-### 5.2 Hashing IDs with `anon_hash()`
+### 5.1 Hashing IDs with `anon_hash()`
 
 [`anon_hash()`](https://icg-cat.github.io/armonia/reference/anon_hash.md)
 requires a project-specific salt stored in the `HARMONIZE_SALT`
