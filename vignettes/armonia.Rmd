@@ -402,62 +402,34 @@ audit <- check_id_audit(
 knitr::kable(audit, caption = "ID audit: wave-2 IDs vs their best match in wave 1")
 ```
 
-Rows where `all_equal` is `FALSE` deserve attention. Here, `bob@gmail.com` (wave 2) best-matches `bob@gmail.co` (wave 1), a clear `.co` vs `.com` typo. Without correction, Bob would appear as a *new participant* rather than a returning one.
+Rows where `all_equal` is `FALSE` deserve attention. Here, `bob@gmail.com` (wave 2) best-matches `bob@gnail.com` (wave 1), a clear `gmail` vs `gnail` typo. Without correction, Bob would appear as a *new participant* rather than a returning one.
 
-Once typos are confirmed, corrections need to be performed before joining. The helper function `anon_clean_email()` is specifically designed for instances where e-mails act as identifiers, and it automatically fixes common patterns including the `.co` vs `.com` typo:
 
-```{r fix-typo}
+### 4.2  Cleaning emails with `anon_clean_email()` and `check_email()`
+
+For instances where e-mails act as identifiers, `anon_clean_email()` and `check_email()` simplify the auditing job. The former standardizes email strings, lowercases, trims whitespace, and corrects very obvious typos, producing a clean, consistent input for hashing. The latter produces a further assessment of e-mails and potential errors beyond the very obvious, by flagging things that could be problematic and leaving to the researcher the decision to make changes.
+
+```{r anon_clean_email}
 std_w1_clean      <- std_w1
 std_w1_clean$id   <- anon_clean_email(std_w1$id)
-```
 
-### 4.2  Building the longitudinal dataset with `harm_add_timepoint()`
-
-`harm_add_timepoint()` performs a full outer join of the (corrected) wave-1 master against the wave-2 data, appending a suffix to every new variable so columns do not collide.
-
-```{r add-timepoint}
-longitudinal <- harm_add_timepoint(
-  master_data = std_w1_clean,
-  new_data    = std_w2,
-  by_id       = "id",
-  suffix      = "_w2"
-)
-knitr::kable(longitudinal, caption = "Wide-format longitudinal dataset")
-```
-
-The join audit summarises the study dynamics automatically:
-
-- **Alice, Bob, Carol, David, Eva, Frank, Grace, Henry, Iris**, matched across both waves (9 participants).
-- **Jack**, present only in wave 1 (attrition); his `_w2` columns are `NA`.
-- **newbie\@gmail.com**, present only in wave 2 (new recruit); his wave-1 columns
-  are `NA`.
-
-> The alert "New participants added. Check if these are valid new recruits or ID
-> typos." is a reminder to always run `check_id_audit()` *before* this step.
-
----
-
-## 5  Phase 4: Anonymization
-
-Identifiers in data collection can be sensitive information. Before sharing the dataset with colleagues or publishing, researchers can replace them with pseudonymous hashes.
-
-### 5.1  Cleaning emails with `anon_clean_email()`
-
-`anon_clean_email()` standardizes email strings, lowercases, trims whitespace, and corrects common typos, producing a clean, consistent input for hashing. We already used it above to fix Bob's ID before the longitudinal join; here we show it explicitly on the wave-1 emails:
-
-```{r clean-email}
 data.frame(
   raw     = wave1$email,
-  cleaned = anon_clean_email(wave1$email)
+  cleaned = std_w1_clean$id
 ) |>
   knitr::kable(caption = "Email cleaning: Bob's 'gnail' typo corrected automatically")
 ```
 
 Empty strings and `NA` values are preserved as `NA_character_`, hashing the literal string `"NA"` would be a silent data error.
 
+```{r check_email}
+check_email(wave1$email) |> 
+  knitr::kable()
+```
+
 ### List of common typos {.tabset}
 
-For a further assessment of e-mails and potential errors, the function `check_email()` reviews and flags things that could be problematic, leaving to the researcher the decision to make changes. Common typos and misspellings that the function reviews:
+Common typos and misspellings that `check_email()` reviews:
 
 #### domain typos
 
@@ -507,7 +479,37 @@ For a further assessment of e-mails and potential errors, the function `check_em
 * domain starts or ends with hyphen
 
 
-### 5.2  Hashing IDs with `anon_hash()`
+### 4.2  Building the longitudinal dataset with `harm_add_timepoint()`
+
+`harm_add_timepoint()` performs a full outer join of the (corrected) wave-1 master against the wave-2 data, appending a suffix to every new variable so columns do not collide.
+
+```{r add-timepoint}
+longitudinal <- harm_add_timepoint(
+  master_data = std_w1_clean,
+  new_data    = std_w2,
+  by_id       = "id",
+  suffix      = "_w2"
+)
+knitr::kable(longitudinal, caption = "Wide-format longitudinal dataset")
+```
+
+The join audit summarises the study dynamics automatically:
+
+- **Alice, Bob, Carol, David, Eva, Frank, Grace, Henry, Iris**, matched across both waves (9 participants).
+- **Jack**, present only in wave 1 (attrition); his `_w2` columns are `NA`.
+- **newbie\@gmail.com**, present only in wave 2 (new recruit); his wave-1 columns
+  are `NA`.
+
+> The alert "New participants added. Check if these are valid new recruits or ID
+> typos." is a reminder to always run `check_id_audit()` *before* this step.
+
+---
+
+## 5  Phase 4: Anonymization
+
+Identifiers in data collection can be sensitive information. Before sharing the dataset with colleagues or publishing, researchers can replace them with pseudonymous hashes. Before hashing, make sure the e-mails have been validated using `anon_clean_email()` and `check_email()`. 
+
+### 5.1  Hashing IDs with `anon_hash()`
 
 `anon_hash()` requires a project-specific salt stored in the `HARMONIZE_SALT`
 environment variable. It refuses to run without one, preventing the creation of
