@@ -41,7 +41,7 @@ names and factor labels.
 ``` r
 
 wave1 <- data.frame(
-  email     = c("alice@uni.edu", "bob@gmail.co", "carol@yahoo.com",
+  email     = c("alice@uni.edu", "bob@gnail.com", "carol@yahoo.com",
                 "david@uni.edu", "eva@outlook.com", "frank@gmail.com",
                 "grace@uni.edu", "henry@yahoo.com", "iris@gmail.com",
                 "jack@uni.edu"),
@@ -110,7 +110,7 @@ wave2 <- split_multival(data = wave2, col = "síntomas", new_names = new_vals2$s
 wave1
 #>              email gender    mood wellbeing sympt_cramps sympt_headache
 #> 1    alice@uni.edu Female    Good         8        FALSE          FALSE
-#> 2     bob@gmail.co   Male Neutral         5         TRUE           TRUE
+#> 2    bob@gnail.com   Male Neutral         5         TRUE           TRUE
 #> 3  carol@yahoo.com Female     Bad         3         TRUE           TRUE
 #> 4    david@uni.edu   Male    Good         7        FALSE          FALSE
 #> 5  eva@outlook.com Female    Good         9        FALSE          FALSE
@@ -157,7 +157,7 @@ dict_init(
 #> ℹ Building map using strategy: position
 #> ℹ The following variables are *not* identified as factors: email
 #> ℹ The following variables are *not* identified as factors: correo
-#> ✔ Dictionary initialized at /tmp/RtmpLeNPIQ/file1a1ade6eda0.xlsx
+#> ✔ Dictionary initialized at /tmp/RtmpV1mOPQ/file1b2a7a78babc.xlsx
 ```
 
 The workbook contains two key sheets:
@@ -305,7 +305,7 @@ exactly one `standard_label` across all waves.
 
 dict_validate(dict_path)
 #> ℹ Validating dictionary structure...
-#> ✔ Dictionary file1a1ade6eda0.xlsx passed validation.
+#> ✔ Dictionary file1b2a7a78babc.xlsx passed validation.
 ```
 
 If any of these tests fail, the function aborts immediately with an
@@ -350,7 +350,7 @@ knitr::kable(std_w1, caption = "Wave 1 after dict_apply()")
 | id                | gender | mood | wellbeing | sympt_cramps | sympt_headache | sympt_none |
 |:------------------|:-------|:-----|----------:|:-------------|:---------------|:-----------|
 | <alice@uni.edu>   | 1      | 1    |         8 | 1            | 1              | 2          |
-| <bob@gmail.co>    | 2      | 2    |         5 | 2            | 2              | 1          |
+| <bob@gnail.com>   | 2      | 2    |         5 | 2            | 2              | 1          |
 | <carol@yahoo.com> | 1      | 3    |         3 | 2            | 2              | 1          |
 | <david@uni.edu>   | 2      | 1    |         7 | 1            | 1              | 2          |
 | <eva@outlook.com> | 1      | 1    |         9 | 1            | 1              | 2          |
@@ -432,7 +432,7 @@ knitr::kable(head(stacked, 8), caption = "Stacked dataset (first 8 rows)")
 | source_wave | id | gender | mood | wellbeing | sympt_cramps | sympt_headache | sympt_none |
 |:---|:---|:---|:---|---:|:---|:---|:---|
 | w1 | <alice@uni.edu> | 1 | 1 | 8 | 1 | 1 | 2 |
-| w1 | <bob@gmail.co> | 2 | 2 | 5 | 2 | 2 | 1 |
+| w1 | <bob@gnail.com> | 2 | 2 | 5 | 2 | 2 | 1 |
 | w1 | <carol@yahoo.com> | 1 | 3 | 3 | 2 | 2 | 1 |
 | w1 | <david@uni.edu> | 2 | 1 | 7 | 1 | 1 | 2 |
 | w1 | <eva@outlook.com> | 1 | 1 | 9 | 1 | 1 | 2 |
@@ -504,7 +504,7 @@ knitr::kable(head(stacked_labeled, 8),
 | source_wave | id | gender | mood | wellbeing | sympt_cramps | sympt_headache | sympt_none |
 |:---|:---|:---|:---|---:|:---|:---|:---|
 | w1 | <alice@uni.edu> | Female | Good | 8 | FALSE | FALSE | TRUE |
-| w1 | <bob@gmail.co> | Male | Neutral | 5 | TRUE | TRUE | FALSE |
+| w1 | <bob@gnail.com> | Male | Neutral | 5 | TRUE | TRUE | FALSE |
 | w1 | <carol@yahoo.com> | Female | Bad | 3 | TRUE | TRUE | FALSE |
 | w1 | <david@uni.edu> | Male | Good | 7 | FALSE | FALSE | TRUE |
 | w1 | <eva@outlook.com> | Female | Good | 9 | FALSE | FALSE | TRUE |
@@ -549,7 +549,7 @@ knitr::kable(audit, caption = "ID audit: wave-2 IDs vs their best match in wave 
 | index | w2id               | best_match          | all_equal |
 |------:|:-------------------|:--------------------|:----------|
 |     1 | <alice@uni.edu>    | <alice@uni.edu>     | TRUE      |
-|     2 | <bob@gmail.com>    | <bob@gmail.co>      | FALSE     |
+|     2 | <bob@gmail.com>    | <bob@gnail.com>     | FALSE     |
 |     3 | <carol@yahoo.com>  | <carol@yahoo.com>   | TRUE      |
 |     4 | <david@uni.edu>    | <david@uni.edu>     | TRUE      |
 |     5 | <eva@outlook.com>  | <eva@outlook.com>   | TRUE      |
@@ -597,10 +597,10 @@ longitudinal <- harm_add_timepoint(
 #> 
 #> ── Longitudinal join audit ──
 #> 
-#> • Matched (both waves): 8
-#> • Attrition (master only): 2
-#> • recruitment (new only): 2
-#> • Total participants: 12
+#> • Matched (both waves): 9
+#> • Attrition (master only): 1
+#> • recruitment (new only): 1
+#> • Total participants: 11
 #> ℹ New participants added. Check if these are valid new recruits or ID typos.
 knitr::kable(longitudinal, caption = "Wide-format longitudinal dataset")
 ```
@@ -608,7 +608,7 @@ knitr::kable(longitudinal, caption = "Wide-format longitudinal dataset")
 | id | gender | mood | wellbeing | sympt_cramps | sympt_headache | sympt_none | gender_w2 | mood_w2 | wellbeing_w2 | sympt_cramps_w2 | sympt_headache_w2 | sympt_none_w2 |
 |:---|:---|:---|---:|:---|:---|:---|:---|:---|---:|:---|:---|:---|
 | <alice@uni.edu> | 1 | 1 | 8 | 1 | 1 | 2 | 1 | 1 | 9 | 1 | 1 | 2 |
-| <bob@gmail.co> | 2 | 2 | 5 | 2 | 2 | 1 | NA | NA | NA | NA | NA | NA |
+| <bob@gmail.com> | 2 | 2 | 5 | 2 | 2 | 1 | 2 | 2 | 6 | 1 | 2 | 1 |
 | <carol@yahoo.com> | 1 | 3 | 3 | 2 | 2 | 1 | 1 | 3 | 4 | 2 | 1 | 1 |
 | <david@uni.edu> | 2 | 1 | 7 | 1 | 1 | 2 | 2 | 1 | 8 | 1 | 1 | 2 |
 | <eva@outlook.com> | 1 | 1 | 9 | 1 | 1 | 2 | 1 | 1 | 9 | 2 | 1 | 1 |
@@ -617,7 +617,6 @@ knitr::kable(longitudinal, caption = "Wide-format longitudinal dataset")
 | <henry@yahoo.com> | 2 | 1 | 8 | 1 | 2 | 1 | 2 | 1 | 9 | 1 | 1 | 2 |
 | <iris@gmail.com> | 1 | 3 | 4 | 2 | 2 | 1 | 1 | 3 | 5 | 2 | 2 | 1 |
 | <jack@uni.edu> | 2 | 2 | 6 | 1 | 1 | 2 | NA | NA | NA | NA | NA | NA |
-| <bob@gmail.com> | NA | NA | NA | NA | NA | NA | 2 | 2 | 6 | 1 | 2 | 1 |
 | <newbie@gmail.com> | NA | NA | NA | NA | NA | NA | 2 | 1 | 7 | 1 | 1 | 2 |
 
 Wide-format longitudinal dataset {.table style="width:100%;"}
@@ -658,13 +657,13 @@ data.frame(
   raw     = wave1$email,
   cleaned = anon_clean_email(wave1$email)
 ) |>
-  knitr::kable(caption = "Email cleaning: Bob's .co typo corrected automatically")
+  knitr::kable(caption = "Email cleaning: Bob's 'gnail' typo corrected automatically")
 ```
 
 | raw               | cleaned           |
 |:------------------|:------------------|
 | <alice@uni.edu>   | <alice@uni.edu>   |
-| <bob@gmail.co>    | <bob@gmail.co>    |
+| <bob@gnail.com>   | <bob@gmail.com>   |
 | <carol@yahoo.com> | <carol@yahoo.com> |
 | <david@uni.edu>   | <david@uni.edu>   |
 | <eva@outlook.com> | <eva@outlook.com> |
@@ -674,20 +673,22 @@ data.frame(
 | <iris@gmail.com>  | <iris@gmail.com>  |
 | <jack@uni.edu>    | <jack@uni.edu>    |
 
-Email cleaning: Bob’s .co typo corrected automatically {.table}
+Email cleaning: Bob’s ‘gnail’ typo corrected automatically {.table}
 
-Supported corrections: `.co` to `.com`, `.con` to `.com`, `@gogle` to
-`@google`. Empty strings and `NA` values are preserved as
-`NA_character_`, hashing the literal string `"NA"` would be a silent
-data error.
+Empty strings and `NA` values are preserved as `NA_character_`, hashing
+the literal string `"NA"` would be a silent data error.
 
-### list of common typos
+### List of common typos
 
-Common typos and mispellings that the function reviews:
+For a further assessment of e-mails and potential errors, the function
+[`check_email()`](https://icg-cat.github.io/armonia/reference/check_email.md)
+reviews and flags things that could be problematic, leaving to the
+researcher the decision to make changes. Common typos and misspellings
+that the function reviews:
 
 - domain typos
 - tlds whitelist
-- other reviws
+- other reviews
 
 | Misspelling   | Replacement    |
 |---------------|----------------|
@@ -727,7 +728,6 @@ Common typos and mispellings that the function reviews:
 - handle starts or ends with dot
 - domain starts or ends with dot
 - domain starts or ends with hyphen
-- 
 
 ### 5.2 Hashing IDs with `anon_hash()`
 
@@ -750,7 +750,7 @@ data.frame(
 | email             | pseudo_id    |
 |:------------------|:-------------|
 | <alice@uni.edu>   | a4007f7aaf6e |
-| <bob@gmail.co>    | 627d8d9c612d |
+| <bob@gmail.com>   | 9d0c43960e3e |
 | <carol@yahoo.com> | 2a750aaa0a36 |
 | <david@uni.edu>   | 71255bf81315 |
 | <eva@outlook.com> | bbff241474fe |
@@ -775,7 +775,7 @@ knitr::kable(longitudinal, caption = "Final anonymized longitudinal dataset")
 | gender | mood | wellbeing | sympt_cramps | sympt_headache | sympt_none | gender_w2 | mood_w2 | wellbeing_w2 | sympt_cramps_w2 | sympt_headache_w2 | sympt_none_w2 | pseudo_id |
 |:---|:---|---:|:---|:---|:---|:---|:---|---:|:---|:---|:---|:---|
 | 1 | 1 | 8 | 1 | 1 | 2 | 1 | 1 | 9 | 1 | 1 | 2 | a4007f7aaf6e |
-| 2 | 2 | 5 | 2 | 2 | 1 | NA | NA | NA | NA | NA | NA | 627d8d9c612d |
+| 2 | 2 | 5 | 2 | 2 | 1 | 2 | 2 | 6 | 1 | 2 | 1 | 9d0c43960e3e |
 | 1 | 3 | 3 | 2 | 2 | 1 | 1 | 3 | 4 | 2 | 1 | 1 | 2a750aaa0a36 |
 | 2 | 1 | 7 | 1 | 1 | 2 | 2 | 1 | 8 | 1 | 1 | 2 | 71255bf81315 |
 | 1 | 1 | 9 | 1 | 1 | 2 | 1 | 1 | 9 | 2 | 1 | 1 | bbff241474fe |
@@ -784,7 +784,6 @@ knitr::kable(longitudinal, caption = "Final anonymized longitudinal dataset")
 | 2 | 1 | 8 | 1 | 2 | 1 | 2 | 1 | 9 | 1 | 1 | 2 | 9fdec6d5e5a8 |
 | 1 | 3 | 4 | 2 | 2 | 1 | 1 | 3 | 5 | 2 | 2 | 1 | 127f3885ba0a |
 | 2 | 2 | 6 | 1 | 1 | 2 | NA | NA | NA | NA | NA | NA | 89b07728a167 |
-| NA | NA | NA | NA | NA | NA | 2 | 2 | 6 | 1 | 2 | 1 | 9d0c43960e3e |
 | NA | NA | NA | NA | NA | NA | 2 | 1 | 7 | 1 | 1 | 2 | 8fb49c6fb9f3 |
 
 Final anonymized longitudinal dataset {.table}

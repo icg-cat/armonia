@@ -11,11 +11,11 @@ SHA-256 hashing.
 
 Useful links:
 
-- <https://github.com/icg-cat/armonia>
+- <https://github.com/your-username/armonia>
 
 - <https://icg-cat.github.io/armonia/>
 
-- Report bugs at <https://github.com/icg-cat/armonia/issues>
+- Report bugs at <https://github.com/your-username/armonia/issues>
 
 ## Author
 
@@ -25,3 +25,5 @@ Other contributors:
 
 - Alejandro González Heras <alejo.heras.vision@gmail.com>
   \[contributor\]
+
+- International Center for Vision Coaching (UIDHL) \[funder\]

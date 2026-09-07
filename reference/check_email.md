@@ -32,10 +32,10 @@ the flagged issues joined with `"; "`).
 ## Examples
 
 ``` r
-emails <- c("alice@uni.edu", "bob@gmail.co", "carol@yahoo.com")
+emails <- c("alice@uni.edu", "bob@gmail.con", "carol@yahoo.com")
 check_email(emails)
-#>             email             flag                       reason
-#> 1   alice@uni.edu               ok                         <NA>
-#> 2    bob@gmail.co possible_mistake possible .co instead of .com
-#> 3 carol@yahoo.com               ok                         <NA>
+#>             email           flag                       reason
+#> 1   alice@uni.edu             ok                         <NA>
+#> 2   bob@gmail.con likely_mistake likely TLD misspelling: .con
+#> 3 carol@yahoo.com             ok                         <NA>
 ```
